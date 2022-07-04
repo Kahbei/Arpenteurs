@@ -1,4 +1,22 @@
 package com.estiam.arpenteurs.data
 
-class TemporaryData {
+import android.content.Context
+import android.content.SharedPreferences
+
+class TemporaryData (
+    private val context: Context,
+    private val sharedPreferences: SharedPreferences = context.getSharedPreferences("tempData", Context.MODE_PRIVATE)
+){
+
+    fun setSavingPreference(dataPref: Int, prefValue: String) =
+        sharedPreferences.edit().putString("Arpenteur-pref-$dataPref", prefValue).apply()
+
+    fun areSavedPreference(dataPref: Int): String? =
+        sharedPreferences.getString("Arpenteur-pref-$dataPref", "")
+
+    fun setLastLocalization(itineraire: Int, lastLoca: String) =
+        sharedPreferences.edit().putString("Arpenteur-lastLocalization-$itineraire", lastLoca).apply()
+
+    fun getLastLocalization(itineraire: Int): String? =
+        sharedPreferences.getString("Arpenteur-lastLocalization-$itineraire", "")
 }
