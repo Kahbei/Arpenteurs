@@ -3,7 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/LoginFragment">
+
+    <fragment
+        android:id="@+id/LoginFragment"
+        android:label="Login fragment"
+        android:name="com.estiam.arpenteurs.ui.authentification.LoginFragment"
+        tools:layout="@layout/fragment_login">
+
+        <!-- popUpTo(Inclusive) supprime le fragment login de la stack -->
+
+        <action
+            android:id="@+id/action_LoginFragment_to_MainFragment"
+            app:destination="@id/SecondFragment"
+            app:popUpTo="@+id/LoginFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 
     <fragment
         android:id="@+id/FirstFragment"
@@ -15,6 +30,7 @@
             android:id="@+id/action_FirstFragment_to_SecondFragment"
             app:destination="@id/SecondFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/SecondFragment"
         android:name="com.estiam.arpenteurs.SecondFragment"
@@ -25,4 +41,5 @@
             android:id="@+id/action_SecondFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
     </fragment>
+
 </navigation>
