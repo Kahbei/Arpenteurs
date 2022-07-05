@@ -8,8 +8,8 @@ class TemporaryData (
     private val sharedPreferences: SharedPreferences = context.getSharedPreferences("tempData", Context.MODE_PRIVATE)
 ){
 
-    fun setSavingPreference(dataPref: Int, prefValue: String) =
-        sharedPreferences.edit().putString("Arpenteur-pref-$dataPref", prefValue).apply()
+    fun setSavingPreference(prefValue: String) =
+        sharedPreferences.edit().putString("Arpenteur-pref", prefValue).apply()
 
     fun areSavedPreference(dataPref: Int): String? =
         sharedPreferences.getString("Arpenteur-pref-$dataPref", "")
