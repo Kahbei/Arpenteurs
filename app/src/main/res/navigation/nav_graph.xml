@@ -5,6 +5,12 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/LoginFragment">
 
+    <action
+        android:id="@+id/action_to_LoginFragment"
+        app:destination="@id/LoginFragment"
+        app:popUpTo="@+id/LoginFragment"
+        app:popUpToInclusive="true" />
+
     <fragment
         android:id="@+id/LoginFragment"
         android:label="Login fragment"
@@ -15,7 +21,7 @@
 
         <action
             android:id="@+id/action_LoginFragment_to_MainFragment"
-            app:destination="@id/SecondFragment"
+            app:destination="@id/FirstFragment"
             app:popUpTo="@+id/LoginFragment"
             app:popUpToInclusive="true" />
     </fragment>

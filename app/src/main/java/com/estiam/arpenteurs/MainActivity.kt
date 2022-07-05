@@ -9,7 +9,10 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.estiam.arpenteurs.databinding.ActivityMainBinding
+import com.estiam.arpenteurs.ui.authentification.LoginFragment
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import java.util.*
+import kotlin.concurrent.schedule
 
 
 class MainActivity : AppCompatActivity() {
@@ -44,20 +47,38 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Redirige vers le LoginFragment et déconnecte l'utilisateur
+     */
+    private fun logoutAndRedirectToLogin() {
+        // redirection vers le fragment
+        val nav = findNavController(R.id.nav_host_fragment_content_main)
+        nav.navigate(R.id.action_to_LoginFragment)
+
+        // timer de 100ms afin d'accéder à la méthode logoutFromGoogle du LoginFragment
+        Timer("waitForLoginFragment", false).schedule(100) {
+            // récupère le nouveau fragment LoginFragment courant
+            (supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main)
+                    ?.childFragmentManager
+                    ?.primaryNavigationFragment as LoginFragment
+            ).logoutFromGoogle()
+        }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> true
+    // au click du menu
+    override fun onOptionsItemSelected(item: MenuItem) : Boolean {
+        when (item.itemId) {
+            // déconnecte l'utilisateur
+            R.id.action_logout -> logoutAndRedirectToLogin()
             else -> super.onOptionsItemSelected(item)
         }
+
+        return true
     }
 
     override fun onSupportNavigateUp(): Boolean {
