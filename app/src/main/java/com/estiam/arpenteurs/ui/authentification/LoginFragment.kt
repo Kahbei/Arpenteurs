@@ -2,10 +2,8 @@ package com.estiam.arpenteurs.ui.authentification
 
 import android.os.Bundle
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import com.estiam.arpenteurs.MainActivity
 import com.estiam.arpenteurs.R
@@ -25,6 +23,7 @@ class LoginFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
 
         // activity du parent
         mainActivity = activity as MainActivity
@@ -51,11 +50,23 @@ class LoginFragment : Fragment() {
         };
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        menu.findItem(R.id.show_logout).isVisible = false
+    }
+
     /**
      * Lance l'activity Google auth
      */
     private fun signInWithGoogle() {
         startGoogleSignInActivity.launch(mGoogleSignInClient.signInIntent)
+    }
+
+    /**
+     * Déconnecte l'utilisateur du compte Google actuellement actif
+     */
+    fun logoutFromGoogle() {
+        mGoogleSignInClient.signOut()
     }
 
     /**
