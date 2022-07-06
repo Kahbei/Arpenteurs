@@ -13,13 +13,13 @@ class FirstFragmentViewModel(private val temporaryData: TemporaryData): ViewMode
         locationList.add(str)
 
         val newStr = locationList.joinToString(";")
-        temporaryData.setSavingPreference(newStr).let {
+        temporaryData.setCurrItinerary(newStr).let {
             Log.d("OUI","INSCRIPTION OK !!")
         }
     }
 
     fun getSaved(): String? {
-        return temporaryData.getSavedPreference()
+        return temporaryData.getCurrItinerary()
     }
 }
 

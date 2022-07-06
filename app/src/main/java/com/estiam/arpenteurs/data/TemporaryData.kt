@@ -7,16 +7,19 @@ class TemporaryData (
     private val context: Context,
     private val sharedPreferences: SharedPreferences = context.getSharedPreferences("tempData", Context.MODE_PRIVATE)
 ){
+    private val currentItinerary: String = "Current-itinerary"
+    private val chosenItinerary: String = "Chosen-itinerary"
 
-    fun setSavingPreference(prefValue: String) =
-        sharedPreferences.edit().putString("Arpenteur-pref", prefValue).apply()
+    fun setCurrItinerary(prefValue: String) =
+        sharedPreferences.edit().putString(currentItinerary, prefValue).apply()
 
-    fun getSavedPreference(): String? =
-        sharedPreferences.getString("Arpenteur-pref", "")
+    fun getCurrItinerary(): String? =
+        sharedPreferences.getString(currentItinerary, "")
 
-    fun setLastLocalization(itineraire: Int, lastLoca: String) =
-        sharedPreferences.edit().putString("Arpenteur-lastLocalization-$itineraire", lastLoca).apply()
+    fun setChosenItinerary(chosenItinerary: String) =
+        sharedPreferences.edit().putString(chosenItinerary, chosenItinerary).apply()
 
-    fun getLastLocalization(itineraire: Int): String? =
-        sharedPreferences.getString("Arpenteur-lastLocalization-$itineraire", "")
+    fun getChosenItinerary(): String? =
+        sharedPreferences.getString(chosenItinerary, "")
+
 }
