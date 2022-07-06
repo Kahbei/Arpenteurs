@@ -3,6 +3,7 @@ package com.estiam.arpenteurs.ui.authentification
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.activity.result.contract.ActivityResultContracts
 import com.estiam.arpenteurs.MainActivity
@@ -78,7 +79,9 @@ class LoginFragment : Fragment() {
             mainActivity.redirectToMainFragmentIfIsConnected()
         // TODO rajouter un message d'erreur pour l'utilisateur
         } else {
-            Log.e("MAIN", "Could not connect to account")
+            // affiche une popup de message d'erreur
+            val appContext = context?.applicationContext
+            Toast.makeText(appContext, "Un problème est survenu lors de la connection à votre compte Google", 4000).show()
         }
     }
 }
