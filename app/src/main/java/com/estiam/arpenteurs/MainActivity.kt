@@ -1,6 +1,7 @@
 package com.estiam.arpenteurs
 
 import android.os.Bundle
+import android.util.Log
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -10,6 +11,8 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
 import com.estiam.arpenteurs.databinding.ActivityMainBinding
+import com.google.android.gms.maps.SupportMapFragment
+import com.estiam.arpenteurs.R
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,6 +21,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val testMapFragmentSFM = supportFragmentManager.findFragmentById(R.id.map_fragment) as? SupportMapFragment
+        Log.d("debug_me", "testMapFragment = " + testMapFragmentSFM.toString())
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
