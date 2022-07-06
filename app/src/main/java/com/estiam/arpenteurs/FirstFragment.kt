@@ -9,8 +9,11 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.estiam.arpenteurs.data.TemporaryData
 import com.estiam.arpenteurs.databinding.FragmentFirstBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.time.LocalDateTime
-import java.util.*
+import kotlinx.coroutines.delay as delay2
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -38,29 +41,41 @@ class FirstFragment() : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.testBtn.setOnClickListener {
-            var test = ""
-            var bil = LocalDateTime.now();
-            var coorN = "${ (0..100).random() }N"
-            var coorS = "${ (0..100).random() }S"
-            var coorW = "${ (0..100).random() }W"
-            var coorE = "${ (0..100).random() }E"
-            test = "|| $bil : $coorN, $coorS, $coorW, $coorE ||"
+        val scope = CoroutineScope(Dispatchers.Main)
+        val firstCallTime = kotlin.math.ceil(System.currentTimeMillis() / 60_000.0).toLong() * 60_000
 
-            for(i in 0..10){
-                FragmentViewModel.save(test)
-                bil = LocalDateTime.now();
-                coorN = "${ (0..100).random() }N"
-                coorS = "${ (0..100).random() }S"
-                coorW = "${ (0..100).random() }W"
-                coorE = "${ (0..100).random() }E"
-                test += " $bil : $coorN, $coorS, $coorW $coorE ||"
+
+        val parentJob = scope.launch {
+            // suspend till first minute comes after some seconds
+            delay2(timeMillis = firstCallTime - System.currentTimeMillis())
+            while (true) {
+                val bil = LocalDateTime.now();
+                val coorN = "${ (0..100).random() }N"
+                val coorS = "${ (0..100).random() }S"
+                val coorW = "${ (0..100).random() }W"
+                val coorE = "${ (0..100).random() }E"
+                val test = " $bil : $coorN, $coorS, $coorW $coorE"
+                launch {
+                    FragmentViewModel.save(test)
+                    populate()
+                }
+                delay2(60_000)  // 1 minute delay (suspending)
             }
+        }
+
+//        binding.textView.text = FragmentViewModel.getSaved()
+
+        binding.testBtn.setOnClickListener {
+            parentJob.cancel()
         }
 
         binding.buttonFirst.setOnClickListener {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
         }
+    }
+
+    fun populate(){
+        binding.textView.text = FragmentViewModel.getSaved()
     }
 
     override fun onDestroyView() {

@@ -7,11 +7,19 @@ import androidx.lifecycle.ViewModelProvider
 import com.estiam.arpenteurs.data.TemporaryData
 
 class FirstFragmentViewModel(private val temporaryData: TemporaryData): ViewModel() {
-    //private _state: Mutable
+    private val locationList: MutableList<String> = mutableListOf()
+
     fun save(str: String){
-        temporaryData.setSavingPreference(str).let {
+        locationList.add(str)
+
+        val newStr = locationList.joinToString(";")
+        temporaryData.setSavingPreference(newStr).let {
             Log.d("OUI","INSCRIPTION OK !!")
         }
+    }
+
+    fun getSaved(): String? {
+        return temporaryData.getSavedPreference()
     }
 }
 

@@ -11,8 +11,8 @@ class TemporaryData (
     fun setSavingPreference(prefValue: String) =
         sharedPreferences.edit().putString("Arpenteur-pref", prefValue).apply()
 
-    fun areSavedPreference(dataPref: Int): String? =
-        sharedPreferences.getString("Arpenteur-pref-$dataPref", "")
+    fun getSavedPreference(): String? =
+        sharedPreferences.getString("Arpenteur-pref", "")
 
     fun setLastLocalization(itineraire: Int, lastLoca: String) =
         sharedPreferences.edit().putString("Arpenteur-lastLocalization-$itineraire", lastLoca).apply()
