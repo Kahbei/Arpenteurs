@@ -1,6 +1,7 @@
 package com.estiam.arpenteurs
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +10,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.estiam.arpenteurs.databinding.ActivityMainBinding
+import com.google.android.gms.maps.SupportMapFragment
 import com.estiam.arpenteurs.ui.authentification.LoginFragment
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import java.util.*
@@ -22,6 +24,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val testMapFragmentSFM = supportFragmentManager.findFragmentById(R.id.map_fragment) as? SupportMapFragment
+        Log.d("debug_me", "testMapFragment = " + testMapFragmentSFM.toString())
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
