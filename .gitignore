@@ -26,6 +26,7 @@ build/
 !**/test/**/build
 *.iml
 !**/testData/**/*.iml
+.idea/
 .idea/remote-targets.xml
 .idea/libraries/Gradle*.xml
 .idea/libraries/Maven*.xml
@@ -73,3 +74,6 @@ outTmp/
 /test.output
 /kotlin-native/dist
 kotlin-ide/
+/.idea/codeStyles/codeStyleConfig.xml
+/.idea/codeStyles/Project.xml
+/.idea/vcs.xml
