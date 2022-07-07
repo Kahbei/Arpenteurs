@@ -37,7 +37,7 @@
             app:destination="@id/SecondFragment" />
         <action
             android:id="@+id/action_FirstFragment_to_mapFragment"
-            app:destination="@id/mapFragment" />
+            app:destination="@id/MapFragment" />
     </fragment>
 
     <fragment
