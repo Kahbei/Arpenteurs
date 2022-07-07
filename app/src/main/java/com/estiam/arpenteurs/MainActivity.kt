@@ -24,8 +24,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val testMapFragmentSFM = supportFragmentManager.findFragmentById(R.id.map_fragment) as? SupportMapFragment
-        Log.d("debug_me", "testMapFragment = " + testMapFragmentSFM.toString())
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
