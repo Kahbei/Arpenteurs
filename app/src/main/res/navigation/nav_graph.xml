@@ -50,12 +50,9 @@
             android:id="@+id/action_SecondFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
     </fragment>
-<<<<<<< HEAD
-    <fragment
-        android:id="@+id/mapFragment"
-        android:name="com.estiam.arpenteurs.ui.map.MapFragment"
-        android:label="MapFragment" />
-=======
 
->>>>>>> 38ada0dc413c7d68bd1c1cb8c6231aab4b46c952
+    <fragment
+        android:id="@+id/MapFragment"
+        android:name="com.estiam.arpenteurs.ui.map.MapFragment"
+        android:label="Map Fragment" />
 </navigation>
