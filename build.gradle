@@ -1,5 +1,6 @@
 buildscript {
     dependencies {
+        classpath 'com.google.gms:google-services:4.3.13'
         classpath 'com.android.tools.build:gradle:7.0.4'
         classpath "com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.1"
     }
@@ -13,16 +14,8 @@ plugins {
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin' version '2.0.1' apply false
 }
 
-/*
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
-
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
-*/
 
+apply plugin: 'com.google.gms.google-services'
