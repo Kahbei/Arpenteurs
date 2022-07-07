@@ -1,0 +1,44 @@
+[
+  {
+    "geometry": {
+      "location": {
+        "lat": 45.73641982012202,
+        "lng": 4.836886690686885
+      },
+      "viewport": {
+        "northeast": {
+          "lat": 45.73641982012202,
+          "lng": 4.836886690686885
+        },
+        "southwest": {
+          "lat": 45.73641982012202,
+          "lng": 4.836886690686885
+        }
+      }
+    },
+    "name": "La Tannerie (estiam)",
+    "rating": 0.0,
+    "vicinity": "181 Av. Jean Jaurès, 69007 Lyon"
+  },
+  {
+    "geometry": {
+      "location": {
+        "lat": 45.75771693590899,
+        "lng": 4.775263225258582
+      },
+      "viewport": {
+        "northeast": {
+          "lat": 45.75772442135265,
+          "lng": 4.775263225258582
+        },
+        "southwest": {
+          "lat": 45.75772442135265,
+          "lng": 4.775263225258582
+        }
+      }
+    },
+    "name": "Tassin la Demi Lune",
+    "rating": 5.0,
+    "vicinity": "6 Chemin de la Raude, 69160 Tassin la Demi Lune"
+  }
+]

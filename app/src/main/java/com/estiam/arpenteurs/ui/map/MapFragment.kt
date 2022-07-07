@@ -1,20 +1,23 @@
 package com.estiam.arpenteurs.ui.map
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.estiam.arpenteurs.BuildConfig.GOOGLE_MAPS_API_KEY
 import com.estiam.arpenteurs.R
 import com.estiam.arpenteurs.databinding.FragmentMapBinding
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
-
+import com.google.android.gms.maps.model.PolylineOptions
+import com.google.maps.DirectionsApi
+import com.google.maps.GeoApiContext
 
 /**
  * [Fragment] pour afficher la map
@@ -25,6 +28,7 @@ class MapFragment : Fragment() {
     private val places: List<Place> by lazy {
         PlacesReader(this).read()
     }
+    private var mMap: GoogleMap? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -58,6 +62,7 @@ class MapFragment : Fragment() {
         //Lance la fonction addMarkers
         mapFragment?.getMapAsync { googleMap ->
             addMarkers(googleMap)
+            onMapReady(googleMap)
         }
     }
 
@@ -73,6 +78,72 @@ class MapFragment : Fragment() {
                     .position(place.latLng)
             )
         }
+    }
+
+    fun onMapReady(googleMap: GoogleMap) {
+        mMap = googleMap
+        val Lyon = LatLng(45.821810560685634, 4.823063163164788)
+
+        //Define list to get all latlng for the route
+        val path: MutableList<LatLng> = ArrayList()
+
+
+        //Execute Directions API request
+        val context = GeoApiContext.Builder()
+            .apiKey("${GOOGLE_MAPS_API_KEY}")
+            .build()
+        val req = DirectionsApi.getDirections(context, "45.73641982012202,4.836886690686885",
+            "45.757769333993515, 4.775306140604183")
+        try {
+            val res = req.await()
+
+            //Loop through legs and steps to get encoded polylines of each step
+            if (res.routes != null && res.routes.size > 0) {
+                val route = res.routes[0]
+                if (route.legs != null) {
+                    for (i in route.legs.indices) {
+                        val leg = route.legs[i]
+                        if (leg.steps != null) {
+                            for (j in leg.steps.indices) {
+                                val step = leg.steps[j]
+                                if (step.steps != null && step.steps.size > 0) {
+                                    for (k in step.steps.indices) {
+                                        val step1 = step.steps[k]
+                                        val points1 = step1.polyline
+                                        if (points1 != null) {
+                                            //Decode polyline and add points to list of route coordinates
+                                            val coords1 = points1.decodePath()
+                                            for (coord1 in coords1) {
+                                                path.add(LatLng(coord1.lat, coord1.lng))
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    val points = step.polyline
+                                    if (points != null) {
+                                        //Decode polyline and add points to list of route coordinates
+                                        val coords = points.decodePath()
+                                        for (coord in coords) {
+                                            path.add(LatLng(coord.lat, coord.lng))
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (ex: Exception) {
+            Log.d("debug_me", ex.localizedMessage)
+        }
+
+        //Draw the polyline
+        if (path.size > 0) {
+            val opts = PolylineOptions().addAll(path).color(Color.BLUE).width(5f)
+            mMap!!.addPolyline(opts)
+        }
+        mMap!!.getUiSettings().setZoomControlsEnabled(true)
+        mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(Lyon, 6f))
     }
 
     override fun onDestroyView() {

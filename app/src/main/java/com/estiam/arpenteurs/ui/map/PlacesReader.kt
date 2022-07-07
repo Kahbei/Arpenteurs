@@ -17,7 +17,7 @@ class PlacesReader(private val context: MapFragment) {
 
     // InputStream representing places.json
     private val inputStream: InputStream
-        get() = context.resources.openRawResource(R.raw.places)
+        get() = context.resources.openRawResource(R.raw.randos)
 
     /**
      * Reads the list of place JSON objects in the file places.json
