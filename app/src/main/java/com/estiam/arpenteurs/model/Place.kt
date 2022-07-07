@@ -1,4 +1,4 @@
-package com.estiam.arpenteurs.ui.map
+package com.estiam.arpenteurs.model
 
 import com.google.android.gms.maps.model.LatLng
 

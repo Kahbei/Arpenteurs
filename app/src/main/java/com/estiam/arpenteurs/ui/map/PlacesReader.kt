@@ -1,7 +1,9 @@
 package com.estiam.arpenteurs.ui.map
 
-import android.content.Context
 import com.estiam.arpenteurs.R
+import com.estiam.arpenteurs.model.Place
+import com.estiam.arpenteurs.model.PlaceResponse
+import com.estiam.arpenteurs.model.toPlace
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.InputStream

@@ -1,4 +1,4 @@
-package com.estiam.arpenteurs.ui.map
+package com.estiam.arpenteurs.model
 
 // Copyright 2020 Google LLC
 //
@@ -14,6 +14,7 @@ package com.estiam.arpenteurs.ui.map
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import com.estiam.arpenteurs.model.Place
 import com.google.android.gms.maps.model.LatLng
 
 data class PlaceResponse(
