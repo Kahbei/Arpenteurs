@@ -1,10 +1,8 @@
 package com.estiam.arpenteurs
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.estiam.arpenteurs.databinding.FragmentFirstBinding
 
@@ -34,6 +32,9 @@ class FirstFragment : Fragment() {
 
         binding.buttonFirst.setOnClickListener {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+        }
+        binding.buttonMap.setOnClickListener {
+            findNavController().navigate(R.id.action_FirstFragment_to_mapFragment)
         }
     }
 

@@ -1,9 +1,22 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 android {
+    // load local.properties configurations
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file("local.properties").newDataInputStream())
+
+    signingConfigs {
+        debug {
+            storeFile file(properties.getProperty("KEYSTORE_PATH"))
+            storePassword properties.getProperty("KEYSTORE_STORE_PASSWORD")
+            keyAlias properties.getProperty("KEYSTORE_KEY_ALIAS")
+            keyPassword properties.getProperty("KEYSTORE_KEY_PASSWORD")
+        }
+    }
     compileSdk 32
 
     defaultConfig {
@@ -14,12 +27,16 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.debug
     }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            signingConfig signingConfigs.debug
         }
     }
     compileOptions {
@@ -35,17 +52,18 @@ android {
 }
 
 dependencies {
-
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.4.2'
     implementation 'androidx.navigation:navigation-ui-ktx:2.4.2'
+    implementation 'com.google.android.gms:play-services-maps:18.0.2'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-
     implementation 'com.google.android.gms:play-services-auth:20.2.0'
-
+    implementation 'com.google.code.gson:gson:2.9.0'
+    implementation 'com.google.maps.android:android-maps-utils:2.2.0'
+    implementation "com.bartoszlipinski:viewpropertyobjectanimator:1.5.0"
 }

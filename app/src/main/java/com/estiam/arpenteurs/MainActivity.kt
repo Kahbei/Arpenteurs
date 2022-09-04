@@ -1,15 +1,23 @@
 package com.estiam.arpenteurs
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
+import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import android.view.Menu
-import android.view.MenuItem
 import com.estiam.arpenteurs.databinding.ActivityMainBinding
+import com.google.android.gms.maps.SupportMapFragment
+import com.estiam.arpenteurs.ui.authentification.LoginFragment
+import com.estiam.arpenteurs.ui.map.search.SearchMenu
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import java.util.*
+import kotlin.concurrent.schedule
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,33 +29,60 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         setSupportActionBar(binding.toolbar)
 
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
-        binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+        // redirige l'utilisateur sur la page home si déjà connecté
+        redirectToMainFragmentIfIsConnected()
+    }
+
+    /**
+     * Redirige l'utilisateur vers le fragment home si ce dernier est authentifié
+     */
+    fun redirectToMainFragmentIfIsConnected() {
+        // si l'utilisateur est authentifié
+        if (GoogleSignIn.getLastSignedInAccount(this) != null) {
+            // navigue vers le fragment home
+            val nav = findNavController(R.id.nav_host_fragment_content_main)
+            nav.navigate(R.id.action_LoginFragment_to_MainFragment)
+        }
+    }
+
+    /**
+     * Redirige vers le LoginFragment et déconnecte l'utilisateur
+     */
+    private fun logoutAndRedirectToLogin() {
+        // redirection vers le fragment
+        val nav = findNavController(R.id.nav_host_fragment_content_main)
+        nav.navigate(R.id.action_to_LoginFragment)
+
+        // timer de 100ms afin d'accéder à la méthode logoutFromGoogle du LoginFragment
+        Timer("waitForLoginFragment", false).schedule(100) {
+            // récupère le nouveau fragment LoginFragment courant
+            (supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main)
+                    ?.childFragmentManager
+                    ?.primaryNavigationFragment as LoginFragment
+            ).logoutFromGoogle()
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> true
+    // au click du menu
+    override fun onOptionsItemSelected(item: MenuItem) : Boolean {
+        when (item.itemId) {
+            // déconnecte l'utilisateur
+            R.id.action_logout -> logoutAndRedirectToLogin()
             else -> super.onOptionsItemSelected(item)
         }
+
+        return false
     }
 
     override fun onSupportNavigateUp(): Boolean {
