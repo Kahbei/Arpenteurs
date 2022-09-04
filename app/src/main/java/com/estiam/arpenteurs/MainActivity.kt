@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -12,6 +13,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import com.estiam.arpenteurs.databinding.ActivityMainBinding
 import com.google.android.gms.maps.SupportMapFragment
 import com.estiam.arpenteurs.ui.authentification.LoginFragment
+import com.estiam.arpenteurs.ui.map.search.SearchMenu
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import java.util.*
 import kotlin.concurrent.schedule
@@ -80,7 +82,7 @@ class MainActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
 
-        return true
+        return false
     }
 
     override fun onSupportNavigateUp(): Boolean {

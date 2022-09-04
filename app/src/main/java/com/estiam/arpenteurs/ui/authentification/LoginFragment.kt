@@ -77,7 +77,6 @@ class LoginFragment : Fragment() {
         // si -1, l'utilisateur est connecté, et est donc redirigé vers la page home
         if(result.resultCode == -1) {
             mainActivity.redirectToMainFragmentIfIsConnected()
-        // TODO rajouter un message d'erreur pour l'utilisateur
         } else {
             // affiche une popup de message d'erreur
             val appContext = context?.applicationContext
